@@ -72,6 +72,9 @@ void load_names(FILE* fp, int year_index, tNames* names) {
 
 // 구조체 배열을 화면에 출력
 void print_names(tNames* names, int num_year) {
+	if (names == NULL || names->data == NULL)
+		return;
+	
 	for (int i = 0; i < names->len; i++) {
 		printf("%s\t%c", (names->data + i)->name, (names->data + i)->sex);
 
@@ -84,7 +87,9 @@ void print_names(tNames* names, int num_year) {
 
 // qsort를 위한 비교 함수
 int compare(const void* n1, const void* n2) {
-
+	if (n1 == NULL && n2 == NULL)
+		return 0;
+	
 	int diff = strcmp(((tName*)n1)->name, ((tName*)n2)->name);
 
 	if (diff == 0) {
