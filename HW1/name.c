@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,12 +25,15 @@ typedef struct {
 // 주의사항: 동일 이름이 남/여 각각 사용될 수 있으므로, 이름과 성별을 구별해야 함
 // names->capacity는 2배씩 증가
 void load_names(FILE* fp, int year_index, tNames* names) {
-	char temp[40];
-	while (fgets(temp, sizeof(temp), fp) != NULL) {
-		char f_name[20], f_sex;
-		int f_freq;
+	if (names == NULL || names->data == NULL)
+		return;
 
-		char *ptr = strtok(temp, ",");
+	char temp[40] = { 0 };
+	while (fgets(temp, sizeof(temp), fp) != NULL) {
+		char f_name[20] = { 0 }, f_sex = 0;
+		int f_freq = 0;
+
+		char* ptr = strtok(temp, ",");
 		strcpy(f_name, ptr);
 		ptr = strtok(NULL, ",");
 		f_sex = *ptr;
@@ -41,19 +43,24 @@ void load_names(FILE* fp, int year_index, tNames* names) {
 
 		if (names->len == names->capacity) {
 			names->capacity *= 2;
-			names->data = (tName*)realloc(names->data, names->capacity * sizeof(tName));
+			tName* temp = (tName*)realloc(names->data, names->capacity * sizeof(tName));
+
+			if (temp == NULL)
+				continue;
+			else
+				names->data = temp;
 		}
 
-		int i;
+		int i = 0;
 
-		for (i = 0; i <= names->len; i++) {
+		for (i = 0; i < names->len; i++) {
 			if (strcmp((names->data + i)->name, f_name) == 0 && (names->data + i)->sex == f_sex) {
 				(names->data + i)->freq[year_index] = f_freq;
 				break;
 			}
 		}
 
-		if (i > names->len) {
+		if (i >= names->len) {
 			strcpy((names->data + (names->len))->name, f_name);
 			(names->data + (names->len))->sex = f_sex;
 			(names->data + (names->len))->freq[year_index] = f_freq;
@@ -77,16 +84,16 @@ void print_names(tNames* names, int num_year) {
 
 // qsort를 위한 비교 함수
 int compare(const void* n1, const void* n2) {
-	
+
 	int diff = strcmp(((tName*)n1)->name, ((tName*)n2)->name);
-	
+
 	if (diff == 0) {
-		if(((tName*)n1)->sex < ((tName*)n2)->sex)
+		if (((tName*)n1)->sex < ((tName*)n2)->sex)
 			return -1;
 		else
 			return 1;
 	}
-	
+
 	else
 		return diff;
 }
