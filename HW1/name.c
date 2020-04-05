@@ -61,6 +61,8 @@ void load_names(FILE* fp, int year_index, tNames* names) {
 		}
 
 		if (i >= names->len) {
+			memset((names->data + (names->len))->freq, 0, sizeof((names->data + (names->len))->freq));
+			
 			strcpy((names->data + (names->len))->name, f_name);
 			(names->data + (names->len))->sex = f_sex;
 			(names->data + (names->len))->freq[year_index] = f_freq;
