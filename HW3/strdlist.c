@@ -228,8 +228,7 @@ int searchList(LIST *pList, char *pArgu, tTOKEN **pDataOut)
 	if (res == 0)
 		return 0;
 
-	(*pDataOut)->token = pLoc->dataPtr->token;
-	(*pDataOut)->freq = pLoc->dataPtr->freq;
+	*pDataOut = pLoc->dataPtr;
 
 	return 1;
 }
