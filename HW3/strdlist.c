@@ -56,9 +56,6 @@ static int _insert(LIST *pList, NODE *pPre, tTOKEN *dataInPtr)
 		newNode->rlink = pList->head;
 		newNode->llink = NULL;
 		pList->head = newNode;
-
-		if (pList->count == 0)
-			pList->rear = newNode;
 	}
 
 	else
@@ -66,13 +63,14 @@ static int _insert(LIST *pList, NODE *pPre, tTOKEN *dataInPtr)
 		newNode->rlink = pPre->rlink;
 		newNode->llink = pPre;
 		pPre->rlink = newNode;
-
-		if (newNode->rlink == NULL)
-			pList->rear = newNode;
-
-		else
-			newNode->rlink->llink = newNode;
 	}
+
+	if (newNode->rlink == NULL)
+		pList->rear = newNode;
+	
+	else
+		newNode->rlink->llink = newNode;
+
 	(pList->count)++;
 
 	return 1;
@@ -85,31 +83,19 @@ static void _delete(LIST *pList, NODE *pPre, NODE *pLoc, tTOKEN **dataOutPtr)
 {
 	*dataOutPtr = pLoc->dataPtr;
 
-	NODE *del = pLoc;
-
 	if (pPre == NULL)
-	{
 		pList->head = pLoc->rlink;
 
-		if (pList->count == 1)
-			pList->rear = NULL;
-
-		else
-			pLoc->rlink->llink = NULL;
-	}
-
 	else
-	{
 		pPre->rlink = pLoc->rlink;
 
-		if (pLoc->rlink == NULL)
-			pList->rear = pPre;
+	if (pLoc->rlink == NULL) 
+		pList->rear = pLoc->llink;
 
-		else
-			pLoc->rlink->llink = pPre;
-	}
+	else
+		pLoc->rlink->llink = pLoc->llink;
 
-	free(del);
+	free(pLoc);
 
 	(pList->count)--;
 }
