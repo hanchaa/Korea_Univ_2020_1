@@ -284,6 +284,12 @@ tTOKEN *createToken(char *str)
 		return NULL;
 
 	temp->token = strdup(str);
+
+	if (temp->token == NULL) {
+		free(temp);
+		return NULL;
+	}
+
 	temp->freq = 1;
 
 	return temp;
