@@ -46,8 +46,11 @@ static int _insert(LIST *pList, NODE *pPre, tTOKEN *dataInPtr)
 {
 	NODE *newNode = (NODE *)malloc(sizeof(NODE));
 
-	if (newNode == NULL)
+	if (newNode == NULL) {
+		free(dataInPtr->token);
+		free(dataInPtr);
 		return 0;
+	}
 
 	newNode->dataPtr = dataInPtr;
 
@@ -168,6 +171,9 @@ void destroyList(LIST *pList)
 */
 int addNode(LIST *pList, tTOKEN *dataInPtr)
 {
+	if(dataInPtr == NULL)
+		return 0;
+
 	NODE *pPre = NULL, *pLoc = NULL;
 
 	int res = _search(pList, &pPre, &pLoc, dataInPtr->token);
