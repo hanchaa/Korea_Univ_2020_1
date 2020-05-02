@@ -67,7 +67,7 @@ static int _insert(LIST *pList, NODE *pPre, tTOKEN *dataInPtr)
 
 	if (newNode->rlink == NULL)
 		pList->rear = newNode;
-	
+
 	else
 		newNode->rlink->llink = newNode;
 
@@ -89,7 +89,7 @@ static void _delete(LIST *pList, NODE *pPre, NODE *pLoc, tTOKEN **dataOutPtr)
 	else
 		pPre->rlink = pLoc->rlink;
 
-	if (pLoc->rlink == NULL) 
+	if (pLoc->rlink == NULL)
 		pList->rear = pLoc->llink;
 
 	else
@@ -229,7 +229,14 @@ int countList(LIST *pList)
 /* returns	1 empty
 			0 list has data
 */
-int emptyList(LIST *pList);
+int emptyList(LIST *pList)
+{
+	if (pList->count == 0)
+		return 1;
+
+	else
+		return 0;
+}
 
 //int fullList( LIST *pList);
 
@@ -266,8 +273,13 @@ void printListR(LIST *pList)
 tTOKEN *createToken(char *str)
 {
 	tTOKEN *temp = (tTOKEN *)malloc(sizeof(tTOKEN));
+
+	if (temp == NULL)
+		return NULL;
+
 	temp->token = strdup(str);
 	temp->freq = 1;
+
 	return temp;
 };
 
