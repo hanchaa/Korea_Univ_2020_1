@@ -1,0 +1,63 @@
+
+Input an expression (postfix): 
+Infix expression : (1/(2-(3+(4+(5+(6*(7/(8+9))))))))
+
+Tree representation:
+								9
+							+
+								8
+						/
+							7
+					*
+						6
+				+
+					5
+			+
+				4
+		+
+			3
+	-
+		2
+/
+	1
+
+Value = -0.080189
+
+Input an expression (postfix): 
+Infix expression : (((1+2)+5)-((5+5)*6))
+
+Tree representation:
+		6
+	*
+			5
+		+
+			5
+-
+		5
+	+
+			2
+		+
+			1
+
+Value = -52.000000
+
+Input an expression (postfix): invalid expression!
+
+Infix expression : ((1/(2+3))-(4*4))
+
+Tree representation:
+		4
+	*
+		4
+-
+			3
+		+
+			2
+	/
+		1
+
+Value = -15.800000
+
+Input an expression (postfix): invalid expression!
+invalid expression!
+invalid expression!

@@ -26,25 +26,108 @@ typedef struct
 	return	head node pointer
 			NULL if overflow
 */
-TREE *createTree(void);
+TREE *createTree(void)
+{
+	TREE *temp = (TREE *)malloc(sizeof(TREE));
+	
+	if(temp == NULL)
+		return NULL;
+	
+	temp->root = NULL;
+	
+	return temp;
+}
 
 /* Deletes all data in tree and recycles memory
 */
 void destroyTree(TREE *pTree);
 
-static void _destroy(NODE *root);
+static void _destroy(NODE *root)
+{
+	if (root == NULL)
+		return;
+
+	_destroy(root->left);
+	_destroy(root->right);
+	free(root);
+}
 
 /*  Allocates dynamic memory for a node and returns its address to caller
 	return	node pointer
 			NULL if overflow
 */
-static NODE *_makeNode(char ch);
+static NODE *_makeNode(char ch)
+{
+	NODE *temp = (NODE *)malloc(sizeof(NODE));
+
+	if (temp == NULL)
+		return NULL;
+
+	temp->data = ch;
+	temp->right = temp->left = NULL;
+	return temp;
+}
 
 /* converts postfix expression to binary tree
 	return	1 success
 			0 invalid postfix expression
 */
-int postfix2tree(char *expr, TREE *pTree);
+int postfix2tree(char *expr, TREE *pTree)
+{
+	NODE *stack[MAX_STACK_SIZE] = {0};
+	int top = -1, i = 0;
+
+	while (*(expr + i) != '\0')
+	{
+		if (!isdigit(*(expr + i)))
+		{
+			NODE *temp[2] = {0};
+
+			for (int j = 0; j < 2; j++)
+			{
+				if (top < 0)
+				{
+					_destroy(temp[0]);
+					_destroy(temp[1]);
+					return 0;
+				}
+
+				temp[j] = stack[top];
+				stack[top--] = NULL;
+			}
+
+			NODE *newNode = _makeNode(*(expr + i));
+			newNode->right = temp[0];
+			newNode->left = temp[1];
+
+			stack[++top] = newNode;
+		}
+
+		else
+		{
+			NODE *newNode = _makeNode(*(expr + i));
+
+			stack[++top] = newNode;
+		}
+
+		i++;
+	}
+
+	if (top > 0)
+	{
+		for (int i = top; i >= 0; i--)
+		{
+			_destroy(stack[i]);
+			stack[i] = NULL;
+		}
+
+		return 0;
+	}
+
+	pTree->root = stack[top];
+
+	return 1;
+}
 
 /* Print node in tree using inorder traversal
 */
@@ -53,7 +136,23 @@ void traverseTree(TREE *pTree);
 /* internal traversal function
 	an implementation of ALGORITHM 6-6
 */
-static void _traverse(NODE *root);
+static void _traverse(NODE *root)
+{
+	if (root == NULL)
+		return;
+
+	if (isdigit(root->data))
+		printf("%c", root->data);
+
+	else
+	{
+		printf("(");
+		_traverse(root->left);
+		printf("%c", root->data);
+		_traverse(root->right);
+		printf(")");
+	}
+}
 
 /* Print tree using inorder right-to-left traversal
 */
@@ -61,19 +160,72 @@ void printTree(TREE *pTree);
 
 /* internal traversal function
 */
-static void _infix_print(NODE *root, int level);
+static void _infix_print(NODE *root, int level)
+{
+	if (root == NULL)
+		return;
+
+	_infix_print(root->right, level + 1);
+	for (int i = 0; i < level; i++)
+		printf("\t");
+	printf("%c\n", root->data);
+	_infix_print(root->left, level + 1);
+}
 
 /* evaluate postfix expression
 	return	value of expression
 */
-float evalPostfix(char *expr);
+float evalPostfix(char *expr)
+{
+	float stack[MAX_STACK_SIZE] = {0};
+	int i = 0, top = -1;
+
+	while (*(expr + i) != '\0')
+	{
+		float left, right;
+
+		if (!isdigit(*(expr + i)))
+		{
+			right = stack[top];
+			stack[top--] = 0;
+			left = stack[top];
+			stack[top--] = 0;
+
+			switch (*(expr + i))
+			{
+			case '+':
+				stack[++top] = left + right;
+				break;
+
+			case '-':
+				stack[++top] = left - right;
+				break;
+
+			case '*':
+				stack[++top] = left * right;
+				break;
+
+			case '/':
+				stack[++top] = left / right;
+				break;
+			}
+		}
+
+		else
+			stack[++top] = *(expr + i) - '0';
+
+		i++;
+	}
+
+	return stack[top];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 void destroyTree(TREE *pTree)
 {
 	if (pTree)
 	{
-		//_destroy( pTree->root);
+		_destroy(pTree->root);
 	}
 
 	free(pTree);
@@ -82,7 +234,7 @@ void destroyTree(TREE *pTree)
 ////////////////////////////////////////////////////////////////////////////////
 void printTree(TREE *pTree)
 {
-	//_infix_print(pTree->root, 0);
+	_infix_print(pTree->root, 0);
 
 	return;
 }
@@ -90,7 +242,7 @@ void printTree(TREE *pTree)
 ////////////////////////////////////////////////////////////////////////////////
 void traverseTree(TREE *pTree)
 {
-	//_traverse(pTree->root);
+	_traverse(pTree->root);
 
 	return;
 }
@@ -106,36 +258,37 @@ int main(int argc, char **argv)
 	while (fscanf(stdin, "%s", expr) == 1)
 	{
 		// creates a null tree
-		//tree = createTree();
+		tree = createTree();
 
-		//if (!tree)
-		//{
-		//	printf( "Cannot create tree\n");
-		//	return 100;
-		//}
+		if (!tree)
+		{
+			printf("Cannot create tree\n");
+			return 100;
+		}
 
 		// postfix expression -> expression tree
-		//int ret = postfix2tree( expr, tree);
-		//if (!ret)
-		//{
-		//	fprintf( stdout, "invalid expression!\n");
-		//	continue;
-		//}
+		int ret = postfix2tree(expr, tree);
+		if (!ret)
+		{
+			fprintf(stdout, "invalid expression!\n");
+			destroyTree(tree);
+			continue;
+		}
 
 		// expression tree -> infix expression
 		fprintf(stdout, "\nInfix expression : ");
-		//traverseTree( tree);
+		traverseTree(tree);
 
 		// print tree with right-to-left infix traversal
 		fprintf(stdout, "\n\nTree representation:\n");
-		//printTree(tree);
+		printTree(tree);
 
 		// evaluate postfix expression
-		//float val = evalPostfix( expr);
-		//fprintf( stdout, "\nValue = %f\n", val);
+		float val = evalPostfix(expr);
+		fprintf(stdout, "\nValue = %f\n", val);
 
 		// destroy tree
-		//destroyTree( tree);
+		destroyTree(tree);
 
 		fprintf(stdout, "\nInput an expression (postfix): ");
 	}
