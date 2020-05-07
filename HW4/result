@@ -61,3 +61,32 @@ Value = -15.800000
 Input an expression (postfix): invalid expression!
 invalid expression!
 invalid expression!
+
+Infix expression : (((1+(2+3))*5)/(7-7))
+
+Tree representation:
+		7
+	-
+		7
+/
+		5
+	*
+				3
+			+
+				2
+		+
+			1
+
+Value = inf
+
+Input an expression (postfix): 
+Infix expression : (3/0)
+
+Tree representation:
+	0
+/
+	3
+
+Value = inf
+
+Input an expression (postfix): 

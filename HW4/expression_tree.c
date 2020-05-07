@@ -97,6 +97,19 @@ int postfix2tree(char *expr, TREE *pTree)
 			}
 
 			NODE *newNode = _makeNode(*(expr + i));
+			if (newNode == NULL) {
+				_destroy(temp[0]);
+				_destroy(temp[1]);
+
+				for (int j = top; j >= 0; j--)
+				{
+					_destroy(stack[j]);
+					stack[j] = NULL;
+				}
+
+				return 0; // overflow 대신 invalid 출력
+			}
+
 			newNode->right = temp[0];
 			newNode->left = temp[1];
 
@@ -106,6 +119,15 @@ int postfix2tree(char *expr, TREE *pTree)
 		else
 		{
 			NODE *newNode = _makeNode(*(expr + i));
+			if (newNode == NULL) {
+				for (int j = top; j >= 0; j--)
+				{
+					_destroy(stack[j]);
+					stack[j] = NULL;
+				}
+
+				return 0; // overflow 대신 invalid 출력
+			}
 
 			stack[++top] = newNode;
 		}
