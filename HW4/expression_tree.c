@@ -29,12 +29,12 @@ typedef struct
 TREE *createTree(void)
 {
 	TREE *temp = (TREE *)malloc(sizeof(TREE));
-	
-	if(temp == NULL)
+
+	if (temp == NULL)
 		return NULL;
-	
+
 	temp->root = NULL;
-	
+
 	return temp;
 }
 
@@ -68,6 +68,19 @@ static NODE *_makeNode(char ch)
 	return temp;
 }
 
+// invalid expression일 경우 스택에 있는 모든 노드 제거
+int invalid_expression(NODE **stack, int top)
+{
+	while (top >= 0)
+	{
+		_destroy(*(stack + top));
+		*(stack + top) = NULL;
+		top--;
+	}
+
+	return 0;
+}
+
 /* converts postfix expression to binary tree
 	return	1 success
 			0 invalid postfix expression
@@ -81,37 +94,20 @@ int postfix2tree(char *expr, TREE *pTree)
 	{
 		if (!isdigit(*(expr + i)))
 		{
-			NODE *temp[2] = {0};
+			if (*(expr + i) != '+' && *(expr + i) != '-' && *(expr + i) != '*' && *(expr + i) != '/')
+				return invalid_expression(stack, top);
 
-			for (int j = 0; j < 2; j++)
-			{
-				if (top < 0)
-				{
-					_destroy(temp[0]);
-					_destroy(temp[1]);
-					return 0;
-				}
-
-				temp[j] = stack[top];
-				stack[top--] = NULL;
-			}
+			if (top < 1)
+				return invalid_expression(stack, top);
 
 			NODE *newNode = _makeNode(*(expr + i));
-			if (newNode == NULL) {
-				_destroy(temp[0]);
-				_destroy(temp[1]);
+			if (newNode == NULL)
+				return invalid_expression(stack, top); // overflow 대신 invalid expression 출력
 
-				for (int j = top; j >= 0; j--)
-				{
-					_destroy(stack[j]);
-					stack[j] = NULL;
-				}
-
-				return 0; // overflow 대신 invalid 출력
-			}
-
-			newNode->right = temp[0];
-			newNode->left = temp[1];
+			newNode->right = stack[top];
+			stack[top--] = NULL;
+			newNode->left = stack[top];
+			stack[top--] = NULL;
 
 			stack[++top] = newNode;
 		}
@@ -119,15 +115,8 @@ int postfix2tree(char *expr, TREE *pTree)
 		else
 		{
 			NODE *newNode = _makeNode(*(expr + i));
-			if (newNode == NULL) {
-				for (int j = top; j >= 0; j--)
-				{
-					_destroy(stack[j]);
-					stack[j] = NULL;
-				}
-
-				return 0; // overflow 대신 invalid 출력
-			}
+			if (newNode == NULL)
+				return invalid_expression(stack, top); // overflow 대신 invalid expression 출력
 
 			stack[++top] = newNode;
 		}
@@ -136,15 +125,7 @@ int postfix2tree(char *expr, TREE *pTree)
 	}
 
 	if (top > 0)
-	{
-		for (int i = top; i >= 0; i--)
-		{
-			_destroy(stack[i]);
-			stack[i] = NULL;
-		}
-
-		return 0;
-	}
+		return invalid_expression(stack, top);
 
 	pTree->root = stack[top];
 

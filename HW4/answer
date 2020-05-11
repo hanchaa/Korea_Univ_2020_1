@@ -23,7 +23,8 @@ Tree representation:
 
 Value = -0.080189
 
-Input an expression (postfix): 
+Input an expression (postfix): invalid expression!
+
 Infix expression : (((1+2)+5)-((5+5)*6))
 
 Tree representation:
@@ -88,5 +89,23 @@ Tree representation:
 	3
 
 Value = inf
+
+Input an expression (postfix): 
+Infix expression : 2
+
+Tree representation:
+2
+
+Value = 2.000000
+
+Input an expression (postfix): 
+Infix expression : (1.2)
+
+Tree representation:
+	2
+.
+	1
+
+Value = 1.000000
 
 Input an expression (postfix): 
