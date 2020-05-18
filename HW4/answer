@@ -98,14 +98,5 @@ Tree representation:
 
 Value = 2.000000
 
-Input an expression (postfix): 
-Infix expression : (1.2)
-
-Tree representation:
-	2
-.
-	1
-
-Value = 1.000000
-
-Input an expression (postfix): 
+Input an expression (postfix): invalid expression!
+invalid expression!
