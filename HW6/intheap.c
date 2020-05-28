@@ -139,6 +139,9 @@ void heapPrint(HEAP *heap)
 		printf("%6d", heap->heapArr[i]);
 
 	printf("\n");
+
+	if (heap->last == heap->capacity - 1)
+		printf("\n");
 }
 
 int main(void)
