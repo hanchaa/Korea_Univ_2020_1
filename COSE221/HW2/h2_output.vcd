@@ -1,0 +1,247 @@
+$date
+	Tue Jun 02 22:34:02 2020
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module TOP $end
+$var wire 16 ! sum [15:0] $end
+$var wire 1 " overflow $end
+$var wire 1 # carry $end
+$var reg 16 $ a [15:0] $end
+$var reg 16 % b [15:0] $end
+$var reg 32 & i [31:0] $end
+$var reg 1 ' sub_not_add $end
+$scope module CLA $end
+$var wire 16 ( A [15:0] $end
+$var wire 16 ) B [15:0] $end
+$var wire 16 * G [15:0] $end
+$var wire 1 ' M $end
+$var wire 16 + P [15:0] $end
+$var wire 16 , S [15:0] $end
+$var wire 1 " V $end
+$var wire 17 - Carry [16:0] $end
+$var wire 1 # C $end
+$scope module CLAGEN $end
+$var wire 1 ' C0 $end
+$var wire 16 . G [15:0] $end
+$var wire 16 / P [15:0] $end
+$var wire 17 0 C [16:0] $end
+$scope begin cla_gen[0] $end
+$upscope $end
+$scope begin cla_gen[1] $end
+$upscope $end
+$scope begin cla_gen[2] $end
+$upscope $end
+$scope begin cla_gen[3] $end
+$upscope $end
+$scope begin cla_gen[4] $end
+$upscope $end
+$scope begin cla_gen[5] $end
+$upscope $end
+$scope begin cla_gen[6] $end
+$upscope $end
+$scope begin cla_gen[7] $end
+$upscope $end
+$scope begin cla_gen[8] $end
+$upscope $end
+$scope begin cla_gen[9] $end
+$upscope $end
+$scope begin cla_gen[10] $end
+$upscope $end
+$scope begin cla_gen[11] $end
+$upscope $end
+$scope begin cla_gen[12] $end
+$upscope $end
+$scope begin cla_gen[13] $end
+$upscope $end
+$scope begin cla_gen[14] $end
+$upscope $end
+$scope begin cla_gen[15] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 0
+b0 /
+b0 .
+b0 -
+b0 ,
+b0 +
+b0 *
+b0 )
+b0 (
+0'
+b0 &
+b0 %
+b0 $
+0#
+0"
+b0 !
+$end
+#5
+1"
+b1111111111111000 -
+b1111111111111000 0
+b1000101100100 *
+b1000101100100 .
+b1001000101100011 !
+b1001000101100011 ,
+b110111010011011 +
+b110111010011011 /
+b1 &
+b11000101101110 %
+b11000101101110 )
+b101111111110101 $
+b101111111110101 (
+#10
+0#
+0"
+b1111111111010100 !
+b1111111111010100 ,
+b1111111110100011 +
+b1111111110100011 /
+b11000 *
+b11000 .
+b10 &
+b1110111 -
+b1110111 0
+1'
+b11000001100101 %
+b11000001100101 )
+b11000000111001 $
+b11000000111001 (
+#15
+0"
+0#
+b1111011101011010 !
+b1111011101011010 ,
+b1111011101011010 +
+b1111011101011010 /
+b0 *
+b0 .
+b11 &
+b0 -
+b0 0
+0'
+b11000001000010 %
+b11000001000010 )
+b1100011100011000 $
+b1100011100011000 (
+#20
+1#
+0"
+b100001011000001 !
+b100001011000001 ,
+b1011110100111100 +
+b1011110100111100 /
+b100001011000010 *
+b100001011000010 .
+b100 &
+b11111111111111101 -
+b11111111111111101 0
+1'
+b1000000000000001 %
+b1000000000000001 )
+b1100001011000010 $
+b1100001011000010 (
+#25
+b1111111111111000 !
+b1111111111111000 ,
+b110 +
+b110 /
+b1111111111111001 *
+b1111111111111001 .
+b101 &
+b11111111111111110 -
+b11111111111111110 0
+0'
+b1111111111111001 %
+b1111111111111001 )
+b1111111111111111 $
+b1111111111111111 (
+#30
+b1111111111111100 !
+b1111111111111100 ,
+b11 +
+b11 /
+b1111111111111100 *
+b1111111111111100 .
+b110 &
+b11111111111111111 -
+b11111111111111111 0
+1'
+b10 %
+b10 )
+b1111111111111110 $
+b1111111111111110 (
+#35
+b1111111111110111 !
+b1111111111110111 ,
+b111 +
+b111 /
+b1111111111111000 *
+b1111111111111000 .
+b111 &
+b11111111111110000 -
+b11111111111110000 0
+0'
+b1111111111111100 %
+b1111111111111100 )
+b1111111111111011 $
+b1111111111111011 (
+#40
+b1111111111111000 !
+b1111111111111000 ,
+b111 +
+b111 /
+b1111111111111000 *
+b1111111111111000 .
+b1000 &
+b11111111111111111 -
+b11111111111111111 0
+1'
+b101 %
+b101 )
+b1111111111111101 $
+b1111111111111101 (
+#45
+0#
+b1001 !
+b1001 ,
+b101 +
+b101 /
+b10 *
+b10 .
+b1001 &
+b1100 -
+b1100 0
+0'
+b111 %
+b111 )
+b10 $
+b10 (
+#50
+1#
+0"
+b0 !
+b0 ,
+b1111111111111111 +
+b1111111111111111 /
+b0 *
+b0 .
+b1010 &
+b11111111111111111 -
+b11111111111111111 0
+1'
+b11 %
+b11 )
+b11 $
+b11 (
+#200
