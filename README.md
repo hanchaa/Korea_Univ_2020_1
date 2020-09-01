@@ -3,5 +3,5 @@
 ## COSE213 - Prof. Lee
 Korea university data structure homework source codes
 
-## COSE 221 - Prof. Baek
+## COSE221 - Prof. Baek
 Korea university digital logic design verilog source codes
